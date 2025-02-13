@@ -1,22 +1,27 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>JS Quizlet Scraper</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Quizlet Scraper</title>
+    <p style="font-size:1px">https://quizlet.com/565984174/abeka-11th-grade-us-history-test-9-nine-weeks-exam-flash-cards/</p>
 </head>
 <body>
-    <div id="main">
-        <h1>JS Quizlet Scraper</h1>
-        <form action="quizlet_scraper.php" method="post">
-            <label for="url">Quizlet URL:</label>
-            <input type="text" name="url" id="url" required>
-            <input type="submit" value="Scrape">
-        </form>
-    </div>
+    <div id="content">Loading...</div>
+    <script>
+        var content = document.getElementById("content");
+        var url = "https://quizlet.com/565984174/abeka-11th-grade-us-history-test-9-nine-weeks-exam-flash-cards/";
+
+        var newWindow = window.open(url, '_blank');
+        newWindow.onload = function() {
+            var termsContainer = newWindow.document.getElementsByClassName("SetPageTerms-yourStats")[0];
+            var terms = termsContainer.getElementsByClassName("SetPageTerm-wordText");
+            var definitions = termsContainer.getElementsByClassName("SetPageTerm-definitionText");
+            var output = "";
+            for (var i = 0; i < terms.length; i++) {
+            output += terms[i].textContent + " - " + definitions[i].textContent + "<br>";
+            }
+            content.innerHTML = output;
+            newWindow.close();
+        };
+        </script>
 </body>
-<script>
-    // Add event listener to form to prevent default submission
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-    });
-    </script>
 </html>
